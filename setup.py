@@ -8,4 +8,6 @@ setup(name="flask_helpers",
       url="https://github.com/seecloud/flask-helpers",
       author="Alexander Maretskiy",
       author_email="amaretskiy@mirantis.com",
-      packages=["flask_helpers"])
+      packages=["flask_helpers"],
+      package_dir={"flask_helpers": "flask_helpers"},
+      package_data={"flask_helpers": ["templates/*.html"]})

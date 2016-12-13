@@ -16,7 +16,7 @@
 import mock
 import testtools
 
-from flask_helpers import routing
+from oss_lib import routing
 
 
 class RoutingTestCase(testtools.TestCase):
@@ -33,8 +33,8 @@ class RoutingTestCase(testtools.TestCase):
             {"endpoint": "foo_ep", "methods": ["a", "f"], "uri": "foo_rule"}]
         self.assertEqual(expected, routing.get_routing_list(app))
 
-    @mock.patch("flask_helpers.routing.flask")
-    @mock.patch("flask_helpers.routing.get_routing_list")
+    @mock.patch("oss_lib.routing.flask")
+    @mock.patch("oss_lib.routing.get_routing_list")
     def test_add_routing_map(self, mock_get_routing_list, mock_flask):
         app = mock.Mock()
         mock_bp = mock.Mock()
@@ -43,7 +43,7 @@ class RoutingTestCase(testtools.TestCase):
         result_app = routing.add_routing_map(app)
 
         mock_flask.Blueprint.assert_called_once_with(
-            "routing_map", "flask_helpers.routing",
+            "routing_map", "oss_lib.routing",
             template_folder="templates")
         mock_bp.route.assert_has_calls(
             [mock.call("/map.html", endpoint="routing_map_html"),

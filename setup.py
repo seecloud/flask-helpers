@@ -2,12 +2,12 @@
 
 from distutils.core import setup
 
-setup(name="flask_helpers",
+setup(name="oss_lib",
       version="0.1",
-      description="Useful stuff for Flask application",
-      url="https://github.com/seecloud/flask-helpers",
+      description="OSS Tooling Library",
+      url="https://github.com/seecloud/oss-lib",
       author="Alexander Maretskiy",
       author_email="amaretskiy@mirantis.com",
-      packages=["flask_helpers"],
-      package_dir={"flask_helpers": "flask_helpers"},
-      package_data={"flask_helpers": ["templates/*.html"]})
+      packages=["oss_lib"],
+      package_dir={"oss_lib": "oss_lib"},
+      package_data={"oss_lib": ["templates/*.html"]})

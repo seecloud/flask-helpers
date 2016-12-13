@@ -1,13 +1,30 @@
-#!/usr/bin/env python
+from setuptools import setup
 
-from distutils.core import setup
-
-setup(name="oss_lib",
-      version="0.1",
-      description="OSS Tooling Library",
-      url="https://github.com/seecloud/oss-lib",
-      author="Alexander Maretskiy",
-      author_email="amaretskiy@mirantis.com",
-      packages=["oss_lib"],
-      package_dir={"oss_lib": "oss_lib"},
-      package_data={"oss_lib": ["templates/*.html"]})
+setup(
+    name="oss_lib",
+    version="0.1.0",
+    description="OSS Tooling Library",
+    license="Apache 2.0",
+    url="https://github.com/seecloud/oss-lib",
+    author="Alexander Maretskiy",
+    author_email="amaretskiy@mirantis.com",
+    platforms="any",
+    zip_safe=False,
+    classifiers=[
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+    ],
+    install_requires=[
+        "Flask==0.11.1",
+    ],
+    packages=["oss_lib"],
+    package_dir={"oss_lib": "oss_lib"},
+    package_data={"oss_lib": ["templates/*.html"]},
+)

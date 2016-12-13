@@ -1,8 +1,11 @@
+Mirantis OSS Tooling Library
+============================
+
 Useful stuff for Flask
-======================
+----------------------
 
 routing.py
-----------
+~~~~~~~~~~
 
 Routing stuff like auto-generated HTML and JSON pages
 with map of routes. This is useful for development
@@ -12,7 +15,7 @@ Example:
 
 .. code-block:: python
 
-    from flask_helpers import routing
+    from oss_lib import routing
     ...
 
     app = Flask(...)

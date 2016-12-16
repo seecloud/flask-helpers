@@ -1,5 +1,8 @@
 __pycache__/
 *.py[cod]
 
+dist/
+
 .tox
 .tests_result/
+.cache

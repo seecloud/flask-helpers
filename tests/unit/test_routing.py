@@ -13,13 +13,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import unittest
+
 import mock
-import testtools
 
 from oss_lib import routing
 
 
-class RoutingTestCase(testtools.TestCase):
+class RoutingTestCase(unittest.TestCase):
 
     def test_get_routing_list(self):
         app = mock.Mock()

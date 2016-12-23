@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="oss_lib",
-    version="0.1.0",
+    version="0.1.1",
     description="OSS Tooling Library",
     license="Apache 2.0",
     url="https://github.com/seecloud/oss-lib",
@@ -22,7 +22,10 @@ setup(
         "Programming Language :: Python :: 3.5",
     ],
     install_requires=[
-        "Flask==0.11.1",
+        "Flask==0.11.1", # BSD
+        "PyYAML>=3.10.0", # MIT
+        "jsonschema>=2.0.0,!=2.5.0,<3.0.0", # MIT
+        "six>=1.9.0", # MIT
     ],
     packages=["oss_lib"],
     package_dir={"oss_lib": "oss_lib"},

@@ -119,25 +119,43 @@ def register_arguments(parser, service_prefix):
     parser.add_argument(
         "--debug",
         action="store_true",
-        default=False,
-        help="Set the logging level to DEBUG, overrides {0}_DEBUG "
-             "environment variable. (default: false).".format(service_prefix),
+        default=None,
+        help="Sets the logging level to DEBUG, overrides the {0}_DEBUG "
+             "environment variable and configuration "
+             "(possible values: true/false, others - unset)."
+             .format(service_prefix),
+    )
+    parser.add_argument(
+        "--no-debug",
+        action="store_false",
+        dest="debug",
+        default=None,
+        help="Opposite to --debug, disables the debug mode and overrides "
+             "the environment variable and a configuration value.",
     )
     return parser
 
 
+def get_debug_value(env_value):
+    if env_value == "true":
+        return True
+    elif env_value == "false":
+        return False
+    return None
+
+
 def get_env_variables(service_prefix):
-    debug = os.environ.get(service_prefix + "_DEBUG") == "true"
+    debug = os.environ.get(service_prefix + "_DEBUG")
     variables = {
         "config_path": os.environ.get(service_prefix + "_CONF"),
         "log_config_path": os.environ.get(service_prefix + "_LOG_CONF"),
-        "debug": debug,
+        "debug": get_debug_value(debug),
     }
     return variables
 
 
 def setup_config(config_path=None, default_config_path=None, defaults=None,
-                 log_config_path=None, debug=False,
+                 log_config_path=None, debug=None,
                  validation_schema=None):
     global CONF, _CONF
 
@@ -151,6 +169,10 @@ def setup_config(config_path=None, default_config_path=None, defaults=None,
     loaded_config = load_config_file(config_path, default_config_path)
     if loaded_config:
         merge_dicts(config, loaded_config)
+
+    config.setdefault("debug", False)
+    if debug is not None:
+            config["debug"] = debug
 
     if debug:
         log_config(config, config_path, default_config_path)
@@ -216,12 +238,13 @@ def merge_dicts(source, other):
 def log_config(config, config_path, default_config_path):
     LOG.debug("Configuration files: config_path=%s, default_config_path=%s",
               config_path, default_config_path)
-    LOG.debug("Content of the configuration:")
+    LOG.debug("Resulting configuration content:")
     content = io.BytesIO()
     yaml.dump(config, stream=content, default_flow_style=False)
     content.seek(0)
     for line in content:
-        LOG.debug(line)
+        LOG.debug(line.rstrip())
+    LOG.debug("End of resulting configuration content.")
 
 
 def get_required_properties(defaults, schema):
@@ -234,7 +257,9 @@ def validate_config(config, defaults=None, validation_schema=None):
     schema = {
         "type": "object",
         "$schema": "http://json-schema.org/draft-04/schema",
-        "properties": {},
+        "properties": {
+            "debug": {"type": "boolean"},
+        },
         "additionalProperties": False,
     }
     if validation_schema:

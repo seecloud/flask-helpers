@@ -56,7 +56,12 @@ class ConfigTestCase(unittest.TestCase):
                       help=mock.ANY),
             mock.call("--debug",
                       action="store_true",
-                      default=False,
+                      default=None,
+                      help=mock.ANY),
+            mock.call("--no-debug",
+                      action="store_false",
+                      dest="debug",
+                      default=None,
                       help=mock.ANY),
         ]
 
@@ -77,7 +82,7 @@ class ConfigTestCase(unittest.TestCase):
     DEFAULT_VARS = {
         "config_path": None,
         "log_config_path": None,
-        "debug": False,
+        "debug": None,
     }
 
     @ddt.data(

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="oss_lib",
-    version="0.1.1",
+    version="0.1.2",
     description="OSS Tooling Library",
     license="Apache 2.0",
     url="https://github.com/seecloud/oss-lib",

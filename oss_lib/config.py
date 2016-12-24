@@ -155,7 +155,9 @@ def setup_config(config_path=None, default_config_path=None, defaults=None,
     if debug:
         log_config(config, config_path, default_config_path)
 
-    validate_config(config, validation_schema)
+    validate_config(config,
+                    defaults=defaults,
+                    validation_schema=validation_schema)
     _CONF = config
     return CONF
 
@@ -222,15 +224,22 @@ def log_config(config, config_path, default_config_path):
         LOG.debug(line)
 
 
-def validate_config(config, validation_schema=None):
+def get_required_properties(defaults, schema):
+    if defaults:
+        return list(set(schema.keys()) - set(defaults.keys()))
+    return list(schema.keys())
+
+
+def validate_config(config, defaults=None, validation_schema=None):
     schema = {
         "type": "object",
         "$schema": "http://json-schema.org/draft-04/schema",
         "properties": {},
         "additionalProperties": False,
     }
-    # TODO(akscram): Generate the `required` key based on passed
-    #                defaults and validation_schema properties.
     if validation_schema:
         schema["properties"].update(validation_schema)
+        required = get_required_properties(defaults, validation_schema)
+        if required:
+            schema["required"] = required
     jsonschema.validate(config, schema)

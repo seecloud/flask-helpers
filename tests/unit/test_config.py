@@ -181,10 +181,32 @@ class ConfigTestCase(unittest.TestCase):
         assert one == result
 
     @ddt.data(
+        ({}, {}, []),
+        (None, {}, []),
+        ({}, {"a": {"type": "integer"}}, ["a"]),
+        ({"a": 1}, {"a": {"type": "integer"}}, []),
+        (
+            {"a": 1},
+            {"a": {"type": "integer"}, "b": {"type": "string"}},
+            ["b"],
+        ),
+    )
+    @ddt.unpack
+    def test_get_required_properties(self, defaults, schema, result):
+        value = config.get_required_properties(defaults, schema)
+        assert value == result
+
+    @ddt.data(
         ({}, None, False),
         ({"a": 1234}, None, True),
         ({"a": 1234}, {"a": {"type": "integer"}}, False),
         ({"a": 1234}, {"a": {"type": "string"}}, True),
+        ({}, {"b": {"type": "string"}}, True),
+        (
+            {"a": 1234},
+            {"a": {"type": "integer"}, "b": {"type": "string"}},
+            True,
+        ),
     )
     @ddt.unpack
     def test_validate_config(self, conf, schema, error):

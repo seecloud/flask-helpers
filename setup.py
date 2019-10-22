@@ -22,7 +22,7 @@ setup(
         "Programming Language :: Python :: 3.5",
     ],
     install_requires=[
-        "Flask==0.11.1", # BSD
+        "Flask==1.0", # BSD
         "PyYAML>=3.10.0", # MIT
         "jsonschema>=2.0.0,!=2.5.0,<3.0.0", # MIT
         "six>=1.9.0", # MIT
